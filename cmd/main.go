@@ -19,5 +19,5 @@ func main() {
 	db.InitStorage(database)
 
 	server := server.NewServer(":8080", host, port, database)
-	server.Start()
+	server.Start(true)
 }
