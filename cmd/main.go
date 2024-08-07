@@ -12,7 +12,7 @@ func main() {
 	host := configs.Envs.PublicHost
 	port := configs.Envs.Port
 
-	database, err := db.NewMySQLStorage()
+	database, err := db.NewPostgresStorage()
 	if err != nil {
 		log.Fatal(err)
 	}

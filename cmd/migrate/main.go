@@ -4,29 +4,35 @@ import (
 	"log"
 	"os"
 
-	_ "github.com/go-sql-driver/mysql" // mysql driver
 	"github.com/golang-migrate/migrate/v4"
-	mysqlMigrate "github.com/golang-migrate/migrate/v4/database/mysql"
-	_ "github.com/golang-migrate/migrate/v4/source/file"
-	"github.com/nasim0x1/bifrost/db"
+	postgresMigrate "github.com/golang-migrate/migrate/v4/database/postgres" // postgres driver
+	_ "github.com/golang-migrate/migrate/v4/source/file"                     // needed for migration files
+	_ "github.com/lib/pq"                                                    // postgres driver
+	"github.com/nasim0x1/bifrost/db"                                         // your custom database package
 )
-	
+
 func main() {
-	db, err := db.NewMySQLStorage()
+	db, err := db.NewPostgresStorage()
 	if err != nil {
 		log.Fatal(err)
 	}
-	driver, _ := mysqlMigrate.WithInstance(db, &mysqlMigrate.Config{})
+	driver, err := postgresMigrate.WithInstance(db, &postgresMigrate.Config{})
+	if err != nil {
+		log.Fatal(err)
+	}
 	m, err := migrate.NewWithDatabaseInstance(
 		"file://cmd/migrate/migrations",
-		"mysql",
+		"postgres",
 		driver,
 	)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	v, d, _ := m.Version()
+	v, d, err := m.Version()
+	if err != nil && err != migrate.ErrNilVersion {
+		log.Fatal(err)
+	}
 	log.Printf("Version: %d, dirty: %v", v, d)
 
 	cmd := os.Args[len(os.Args)-1]
