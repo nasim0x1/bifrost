@@ -37,6 +37,7 @@ func (h *Handler) RegisterUserRoutes(router *mux.Router) {
 	router.HandleFunc("/login", h.handleLogin).Methods("POST")
 	router.HandleFunc("/register", h.handleRegister).Methods("POST")
 	router.HandleFunc("/forgot-password", h.handleForgotPassword).Methods("POST")
+	router.HandleFunc("/protected", h.testProtected).Methods("GET")
 
 }
 func (h *Handler) handleLogin(w http.ResponseWriter, r *http.Request) {
@@ -54,12 +55,20 @@ func (h *Handler) handleLogin(w http.ResponseWriter, r *http.Request) {
 		handlers.SendErrorResponse(w, http.StatusUnauthorized, "Invalid credentials")
 		return
 	}
+
+	token, err := utils.CreateJwtToken(user.ID)
+	if err != nil {
+		handlers.SendErrorResponse(w, http.StatusInternalServerError, "Internal server error")
+		return
+	}
+
 	responseUser := models.UserResponse{
 		ID:        user.ID,
 		FirstName: user.FirstName,
 		LastName:  user.LastName,
 		Email:     user.Email,
 		CreatedAt: user.CreatedAt,
+		JwtToken:  token,
 	}
 	loginResp := LoginResponse{
 		Message: "Login successful",
@@ -118,4 +127,8 @@ func getUserByEmail(DB *sql.DB, email string) (models.User, error) {
 		return user, err
 	}
 	return user, nil
+}
+
+func (h *Handler) testProtected(w http.ResponseWriter, r *http.Request) {
+	
 }

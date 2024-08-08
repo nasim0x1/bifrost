@@ -17,4 +17,5 @@ type UserResponse struct {
 	LastName  string    `db:"lastName" json:"last_name"`
 	Email     string    `db:"email" json:"email"`
 	CreatedAt time.Time `db:"createdAt" json:"created_at"`
+	JwtToken  string    `json:"token"`
 }
