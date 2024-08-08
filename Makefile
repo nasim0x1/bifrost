@@ -15,3 +15,8 @@ migrate-up:
 
 migrate-down:
 	@go run cmd/migrate/main.go down
+
+clean:
+	@echo Cleaning...
+	@rm -rf ./bin
+	@echo Cleaning completed...
