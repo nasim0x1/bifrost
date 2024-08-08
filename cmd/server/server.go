@@ -75,7 +75,7 @@ func (s *Server) Start(debug bool) error {
 
 	subRoute := router.PathPrefix("/api/v1").Subrouter()
 
-	userHandler := user.NewHandler()
+	userHandler := user.NewHandler(s.DB)
 	userHandler.RegisterUserRoutes(subRoute)
 
 	router.HandleFunc("/", handleIndexEndpoint)

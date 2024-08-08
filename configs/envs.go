@@ -9,7 +9,6 @@ import (
 	"github.com/joho/godotenv"
 )
 
-
 type Config struct {
 	PublicHost             string
 	Port                   string
@@ -17,12 +16,11 @@ type Config struct {
 	DBPassword             string
 	DBAddress              string
 	DBName                 string
-	JWTSecret              string
+	Secret                 string
 	JWTExpirationInSeconds int64
 }
 
 var Envs = initConfig()
-
 
 func initConfig() Config {
 	godotenv.Load()
@@ -30,7 +28,7 @@ func initConfig() Config {
 	return Config{
 		PublicHost:             getEnv("PUBLIC_HOST", "http://localhost"),
 		Port:                   getEnv("PORT", "8080"),
-		JWTSecret:              getEnv("JWT_SECRET", "not-so-secret-now-is-it?"),
+		Secret:                 getEnv("SECRET_KEY", "not-so-secret-now-is-it?"),
 		JWTExpirationInSeconds: getEnvAsInt("JWT_EXPIRATION_IN_SECONDS", 3600*24*7),
 	}
 }
