@@ -1,4 +1,4 @@
-package db
+package database
 
 import (
 	"database/sql"
@@ -8,7 +8,7 @@ import (
 	"github.com/nasim0x1/bifrost/configs"
 )
 
-func NewPostgresStorage() (*sql.DB, error) {
+func NewDatabaseStorage() (*sql.DB, error) {
 	db, err := sql.Open("postgres", configs.DBConfig.GetConnectionString())
 	if err != nil {
 		return nil, err

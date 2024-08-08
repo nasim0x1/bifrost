@@ -8,11 +8,11 @@ import (
 	postgresMigrate "github.com/golang-migrate/migrate/v4/database/postgres" // postgres driver
 	_ "github.com/golang-migrate/migrate/v4/source/file"                     // needed for migration files
 	_ "github.com/lib/pq"                                                    // postgres driver
-	"github.com/nasim0x1/bifrost/db"                                         // your custom database package
+	"github.com/nasim0x1/bifrost/database"                                   // your custom database package
 )
 
 func main() {
-	db, err := db.NewPostgresStorage()
+	db, err := database.NewDatabaseStorage()
 	if err != nil {
 		log.Fatal(err)
 	}
