@@ -9,13 +9,6 @@ import (
 	"github.com/joho/godotenv"
 )
 
-type DatabaseConfig struct {
-	Host             string
-	Port             string
-	DatabaseUser     string
-	DatabasePassword string
-	DatabaseName     string
-}
 
 type Config struct {
 	PublicHost             string
@@ -29,13 +22,7 @@ type Config struct {
 }
 
 var Envs = initConfig()
-var DBConfig = DatabaseConfig{
-	Host:             getEnv("DB_HOST", "localhost"),
-	Port:             getEnv("DB_PORT", "3306"),
-	DatabaseUser:     getEnv("DB_USER", "root"),
-	DatabasePassword: getEnv("DB_PASSWORD", "mypassword"),
-	DatabaseName:     getEnv("DB_NAME", "bifrost"),
-}
+
 
 func initConfig() Config {
 	godotenv.Load()
