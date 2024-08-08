@@ -1,4 +1,4 @@
-package types
+package models
 
 import "time"
 
@@ -11,3 +11,10 @@ type User struct {
 	CreatedAt time.Time `db:"createdAt" json:"created_at"`
 }
 
+type UserResponse struct {
+	ID        int       `db:"id" json:"id"`
+	FirstName string    `db:"firstName" json:"first_name"`
+	LastName  string    `db:"lastName" json:"last_name"`
+	Email     string    `db:"email" json:"email"`
+	CreatedAt time.Time `db:"createdAt" json:"created_at"`
+}
