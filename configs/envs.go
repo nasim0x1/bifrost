@@ -20,11 +20,14 @@ type Config struct {
 	JWTExpirationInSeconds int64
 }
 
+func (c *Config) GetJwtSecret() []byte {
+	return []byte(c.Secret)
+}
+
 var Envs = initConfig()
 
 func initConfig() Config {
 	godotenv.Load()
-
 	return Config{
 		PublicHost:             getEnv("PUBLIC_HOST", "http://localhost"),
 		Port:                   getEnv("PORT", "8080"),
